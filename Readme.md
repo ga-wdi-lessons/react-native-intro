@@ -9,9 +9,13 @@
 
 ## Framing
 
-React Native is like React, but it uses native components instead of web components as building blocks. React Native does not aim to be a cross platform, write-once run-anywhere, tool. It is aiming to be learn-once write-anywhere. An important distinction to make. This lesson only covers iOS development, but once you’ve learned the concepts here you could port that knowledge into creating an Android app very quickly.
+React Native is a framework for building cross-platform apps.
+
+React Native is like React, but it uses native components instead of web components as building blocks. In its approach to building cross-platform apps, React Native does not aim to be a cross platform, write-once run-anywhere, tool. But rather it aims exemplify a learn-once write-anywhere paradigm. An important distinction to make. This lesson only covers iOS development, but once you’ve learned the concepts here you could port that knowledge into creating an Android app very quickly.
 
 **Q**: What do we mean by native components?
+
+At a high level, it’s important distinction to make that we are no longer on the (desktop) web. This means different UX, different UI, and no URL. The thought processes we've established around building UIs for the web will help, but won’t be enough to create a great experience on mobile.
 
 ## Getting Started
 
@@ -137,15 +141,15 @@ To put our React skills to the test in this new environment, we'll start by buil
 
 ### `ContactApp` Component
 
-Let's begin by looking at a quick wireframe of what we are going for:
+Let's begin by looking at a quick mockup of what we are going for:
 
-<!— TODO: insert component diagram —>
+![Contact-App-Mockup](https://s21.postimg.org/b0n1x0vlz/contact_App.png)
 
-Our Contacts app can be broken down into three main components: an `ContactApp` container component, a `ContactList` list component, and a `NewContact` form component. All of our app's state will live in the container component, and  the `ContactList` component will  be broken down into multiple presentational components.
+Our Contacts app can be broken down into two main components: an `ContactApp` container component, a `ContactList` list component. All of our app's state will live in the container component, and  the `ContactList` component will be broken down into multiple presentational components, namely `Row`, and `Search`.
 
 To start, let's get rid of the generated code in our app's root component, and define our basic structure and state.
 
-### Structuring State and Component Outline
+### [Structuring State and Component Outline](https://github.com/ga-wdi-exercises/react-native-contacts/commit/34fc7ae5e81ce6a9f0c6f39c570a55ad0aa29288)
 
 Before we start building our application, with the design of our components in mind - let's try to brainstorm all of the important changing data we will need to track in our users' flow.
 
@@ -156,7 +160,7 @@ Before we start building our application, with the design of our components in m
 
 ---
 
-Since our application will be focused on contacts, we will need to store information about all contacts, a new contact, and the user search term for filtering contacts. Let's go ahead and map the pieces of data we will need to track by initializing some default state for our `ContactApp`:
+Since our application will be focused on contacts, we will need to store information about all contacts and the user search term for filtering contacts. Let's go ahead and map the pieces of data we will need to track by initializing some default state for our `ContactApp`:
 
 ```jsx
 // import code omitted above
@@ -166,13 +170,6 @@ export default class ContactApp extends Component {
     super(props)
     this.state = {
       contacts: [],
-      newContact: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-        imageUrl,
-      },
       searchTerm: '',
     }
   }
@@ -180,9 +177,9 @@ export default class ContactApp extends Component {
   render() {
     return (
     	<View>
-        <NewContact />
         <ContactList>
-          <
+          <ContactSearch />
+          <Row />
         </ContactList>
       </View>
     )
@@ -192,7 +189,7 @@ export default class ContactApp extends Component {
 AppRegistery.registerComponent( 'ContactApp', () => ContactApp )
 ```
 
-> **Note**: In our render function, we are rendering our `NewContact` and `ContactList` components, which we have yet to define, but will do so momentarily
+> **Note**: In our render function, we are rendering our a`ContactList` component which itself has several children components. While we have yet to define these yet, we will do so momentarily.
 
 Great, now that we have a good idea of the structure and data of our application, let's get to work building out the rest of our components with some actual data.
 
@@ -226,7 +223,7 @@ import ContactsData from './contactsData'
 
 Great, now that we have those pieces in place, let's define our `ContactList` component which we will use to render a `ListView` and which will receive the correct data as props.
 
-### `ContactList` Component
+### [`ContactList` Component](https://github.com/ga-wdi-exercises/react-native-contacts/commit/4f40cf5e39a14c134ec31644d06105d90e663430)
 
 Let's put our new component definition after our imports, and before our `ContactApp` component definition:
 
@@ -266,12 +263,6 @@ export default class ContactApp extends Component {
     this.state = {
       contacts: contactsData, // update state to pull from the seed data
       dataSource: ds.cloneWithRows(contactsData), // need to format our seed data correctly
-      newContact: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-      },
       searchTerm: '',
     }
   }
@@ -297,7 +288,7 @@ If we now reload in the simulator, we should see all of our contacts' first name
 
 ---
 
-### (You - Do) Refactoring To Use A Row Component
+### (You - Do) [Refactoring To Use A Row Component](https://github.com/ga-wdi-exercises/react-native-contacts/commit/bc8e8f2429784ecba4eb39a12cb52cf51d950bab)
 
 Now that we have our basic app structure in place, it's a good time to take the opportunity to refactor and add some styles to our rendered data.
 
@@ -328,7 +319,7 @@ Once you have your initial markup, try adding some inline styles to your `Row` C
 
 Ultimately in the mobile landscape, the [React Native flow of styling](https://facebook.github.io/react-native/docs/style.html) leads to a more modular, targeted approach to styling components, rather than creating traditional external stylesheets. This allows for styles to be easily reused, and only applied on components as they are rendered down the chain.
 
-#### Adding A Row Separator
+#### [Adding A Row Separator](https://github.com/ga-wdi-exercises/react-native-contacts/commit/08bd991ba339331209b00e00f50b59664e3a1a15)
 
 Now that our UI for our initial view is starting to come together, let's add a nice visual separator between our rendered rows. Luckily, the `ListView` component has a `renderSeparator()` method that can help us display a separator between components in our list.
 
@@ -365,7 +356,7 @@ const styles = {
 
 Now, you might be asking why not just tack on a border bottom on the component returned by *renderRow*? One main reason is that *renderSeparator* is smart! It won’t render the separator on the last element in the section. 
 
-### Adding Search UI to Filter Contacts
+### [Adding Search UI to Filter Contacts](https://github.com/ga-wdi-exercises/react-native-contacts/commit/e5b041c9ced96dac9042189ae709199e297ad2d1)
 
 Let's continue implementing our outlined features and add a way for users to filter our contacts by name.
 
@@ -523,13 +514,6 @@ export default class ContactApp extends Component {
     this.state = {
       contacts: contactsData,
       dataSource: ds.cloneWithRows(contactsData),
-      newContact: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-        imageUrl: '',
-      },
       searchTerm: '',
     }
 
@@ -581,6 +565,7 @@ Now that we know the building blocks of React Native, we can build some pretty c
 
 - [Fetching Data with React Native](https://facebook.github.io/react-native/docs/network.html)
 - [Navigation](https://facebook.github.io/react-native/docs/using-navigators.html)
+- [React Native Express](http://www.reactnativeexpress.com/)
 - [The Future](https://getexponent.com/)
 
 ## Resources
