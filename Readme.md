@@ -3,13 +3,15 @@
 ## Learning Objectives
 
 - Explain the problem React Native solves and its approach to solving it
-- Build an IOS app with React Native
+- Build an iOS app with React Native
 - Utilize `Text`, `View`, `ListView`, `Image`, and `TextInput` components to construct native screens
 - Explain how to style components in a React Native application
 
 ## Framing
 
-React Native is like React, but it uses native components instead of web components as building blocks. React Native does not aim to be a cross platform, write-once run-anywhere, tool. It is aiming to be learn-once write-anywhere. An important distinction to make. This lesson only covers iOS development, but once you’ve learned the concepts here you could port that knowledge into creating an Android app very quickly. 
+React Native is like React, but it uses native components instead of web components as building blocks. React Native does not aim to be a cross platform, write-once run-anywhere, tool. It is aiming to be learn-once write-anywhere. An important distinction to make. This lesson only covers iOS development, but once you’ve learned the concepts here you could port that knowledge into creating an Android app very quickly.
+
+**Q**: What do we mean by native components?
 
 ## Getting Started
 
@@ -28,29 +30,30 @@ This is used by React Native to figure out when your code changes and rebuild ac
 
 Next up, we need to get the React Native CLI tools, which will allow us to initialize and run our applications.
 
-Before we start running an IOS app, as recommended let's use Facebook's JS package manager `yarn` to install the tools locally:
+Before we start running an iOS app, as recommended let's use Facebook's JS package manager `yarn` to install the tools locally:
 
 ```bash
 $ npm install -g yarn
 $ yarn global add react-native-cli
 ```
 
-The only thing left is to set up our build tool that will simulate the ios enviornment. One of the most popular options if you are on OS X  for this process is Apple's `XCode` application which you can install from the App Store.
+The only thing left is to set up our build tool that will simulate the iOS environment. One of the most popular options if you are on OS X  for this process is Apple's `XCode` application which you can install from the App Store.
 
 > **Note**: the process may take 1 to 2 hours for this download to complete, make sure to connect your computer to a power source and do not interrupt the process. If you want to skip to writing code now without setting up the environment, we recommend checking out [Facebook's interactive tutorial](https://facebook.github.io/react-native/docs/tutorial.html#hello-world)
 
 ### React-Native Init
 
-Now that we have our dependencies, let's use the react-native-cli tool to generate a new project for us. 
+Now that we have our dependencies, let's use the react-native-cli tool to generate a new project for us.
 
 ```bash
 $ react-native init ContactApp
 $ cd ContactApp
 ```
 
-Included in the project is some starter code for both IOS and Andriod platforms. Today, we will focus on developing an IOS app, so let's start by examining the contents of `index.ios.js`
+Included in the project is some starter code for both iOS and Android platforms. Today, we will focus on developing an iOS app, so let's start by examining the contents of `index.iOS.js`
 
-```js
+```jsx
+// Using ES6 Modules to import dependencies - namely React and some components from React Native
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -59,6 +62,7 @@ import {
   View
 } from 'react-native';
 
+// Definition for our app root component
 export default class ContactApp extends Component {
   render() {
     return (
@@ -67,7 +71,7 @@ export default class ContactApp extends Component {
           Welcome to React Native!
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit index.ios.js
+          To get started, edit index.iOS.js
         </Text>
         <Text style={styles.instructions}>
           Press Cmd+R to reload,{'\n'}
@@ -78,9 +82,10 @@ export default class ContactApp extends Component {
   }
 }
 
+// This is how we style components in React Native - with JS!
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1,s
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
@@ -97,6 +102,7 @@ const styles = StyleSheet.create({
   },
 });
 
+// Bootstrap our app's root component so it will load, initialize, and render our app
 AppRegistry.registerComponent('ContactApp', () => ContactApp);
 ```
 
@@ -104,29 +110,30 @@ We are looking at the entry point to the Sample App that `react-native-cli` crea
 
 ### Imports and Building Blocks
 
-At the top of the file, we see that we are loading in the `React` library and the`Component` base class from `React` just like before, but then we are also importanting some predefined methods and components from the `React-Native` library:
+At the top of the file, we see that we are loading in the `React` library and the`Component` base class from `React` just like before, but then we are also importing some predefined methods and components from the `React-Native` library:
 
 > [**AppRegistery**](https://facebook.github.io/react-native/docs/appregistry.html) - is the JS entry point to running all React Native apps. App root components should register themselves with `AppRegistry.registerComponent`, then the native system can load the bundle for the app
 
 > [**View**](https://facebook.github.io/react-native/docs/view.html) - the most fundamental component for building a UI, `View` is a container that supports compossible layout, meaning a`View` is designed to be nested inside other views and can have 0 to many children of any type.
 
-> [**Text**](https://facebook.github.io/react-native/docs/text.html) - a React component for displaying text. 
+> [**Text**](https://facebook.github.io/react-native/docs/text.html) - a React component for displaying text.
 
 > [**StyleSheet**](https://facebook.github.io/react-native/docs/stylesheet.html) -  is an abstraction similar to CSS StyleSheets. Using StyleSheet to create style objects to be used inline by components leads to higher performance and code quality.
 
-<!— TODO: define imports —>
+These are the fundamental building blocks used to construct our own components, and represent the parts
+of the React Native that we need to quickly bootstrap a React Native application.
 
-Now to go ahead and compile our application, and view it in the simulator, we can run:
+Now to compile our application and view it in the simulator, we can run:
 
 ```bash
-$ react-native run-ios
+$ react-native run-iOS
 ```
 
-This should build our app and open it up in an IOS simulator powered by XCode.
+This should build our app and open it up in an iOS simulator powered by XCode.
 
 ## Building a Contact List App
 
-To put our React skills to the test in this new environment, we'll start by building an application to help manage our contacts. This app with push us to use many of the APIs React Native provides for doing common tasks such as collecting user input, rendering lists of data, and updating the UI based on state changes.
+To put our React skills to the test in this new environment, we'll start by building an application to help manage some contacts. This app will push us to use many of the APIs React Native provides for doing common tasks such as collecting user input, rendering lists of data, and updating the UI based on state changes.
 
 ### `ContactApp` Component
 
@@ -134,16 +141,25 @@ Let's begin by looking at a quick wireframe of what we are going for:
 
 <!— TODO: insert component diagram —>
 
-Our Contacts app can be broken down into three main components: an `ContactApp` container component, a `ContactList` list component, and a `NewContact` form component. All of our app's state will live in the container component, and  the `ContactList` component can optionally be broken down into multiple presentational components.
+Our Contacts app can be broken down into three main components: an `ContactApp` container component, a `ContactList` list component, and a `NewContact` form component. All of our app's state will live in the container component, and  the `ContactList` component will  be broken down into multiple presentational components.
 
 To start, let's get rid of the generated code in our app's root component, and define our basic structure and state.
 
 ### Structuring State and Component Outline
 
-Since our application will be focused on contacts, we will need to store information about all contacts, a new contact, and the user search term for filtering contacts. Let's go ahead and map the pieces of data we will need to track by intializing some default state for our `ContactApp` 
+Before we start building our application, with the design of our components in mind - let's try to brainstorm all of the important changing data we will need to track in our users' flow.
+
+#### Turn and Talk
+
+- What pieces of state should we keep track of as we build our application?
+- What will be the way primary ways we will update our app's state?
+
+---
+
+Since our application will be focused on contacts, we will need to store information about all contacts, a new contact, and the user search term for filtering contacts. Let's go ahead and map the pieces of data we will need to track by initializing some default state for our `ContactApp`:
 
 ```jsx
-// import code ommitted above
+// import code omitted above
 
 export default class ContactApp extends Component {
   constructor(props) {
@@ -155,6 +171,7 @@ export default class ContactApp extends Component {
         lastName: '',
         email: '',
         phoneNumber: '',
+        imageUrl,
       },
       searchTerm: '',
     }
@@ -163,9 +180,11 @@ export default class ContactApp extends Component {
   render() {
     return (
     	<View>
-          <NewContact />
-          <ContactList />
-      	</View>
+        <NewContact />
+        <ContactList>
+          <
+        </ContactList>
+      </View>
     )
   }
 }
@@ -177,11 +196,11 @@ AppRegistery.registerComponent( 'ContactApp', () => ContactApp )
 
 Great, now that we have a good idea of the structure and data of our application, let's get to work building out the rest of our components with some actual data.
 
-### Using `ListView` to Render Scrollable Lists 
+### Using `ListView` to Render Scrollable Lists
 
-For our dataset, we've taken advantage of the great free service [Random User Generator]() to create some fake user data that [we've included](./contactsData.json) for our use. The JSON seed data is structured as an array of objects containing metadata such as `firstName`, `lastName`, `email`, `phoneNumber`, and `imageUrl` for each fake contact.
+For our dataset, we've taken advantage of the great free service [Random User Generator](https://randomuser.me/) to create some fake user data that [we've included](./contactsData.json) for our use. The JSON seed data is structured as an array of objects containing metadata such as `firstName`, `lastName`, `email`, `phoneNumber`, and `imageUrl` for each fake contact.
 
-First, we need to create a file in our project's root directory to hold all of our data, let's call that file `contactsData.json`: 
+First, we need to create a file in our project's root directory to hold all of our data, let's call that file `contactsData.json`:
 
 ```bash
 $ touch contactsData.json
@@ -191,7 +210,7 @@ Then, we can go ahead and copy the contents of the [seed data](./contactsData.js
 
 In order to render this data, we are going to use the pre-built `ListView` React Native component, which specializes in displaying dynamic scrollable data. To use it, we need to first import the component from React Native, and import our seed data.
 
-In `index.ios.js`:
+In `index.iOS.js`:
 
 ```js
 import React, {Component} from 'react'
@@ -205,11 +224,11 @@ import {
 import ContactsData from './contactsData'
 ```
 
-Great, now that we have those pieces in place, let's define our `ContactList` component which we will use to render a `ListView` and which will recieve the correct data as props.
+Great, now that we have those pieces in place, let's define our `ContactList` component which we will use to render a `ListView` and which will receive the correct data as props.
 
 ### `ContactList` Component
 
-Let's put our new component defintion after our imports, and before our `ContactApp` component definition:
+Let's put our new component definition after our imports, and before our `ContactApp` component definition:
 
 ```jsx
 // ContactList component
@@ -218,6 +237,7 @@ class ContactList extends Component {
     return (
       <ListView
         dataSource={this.props.dataSource}
+      {/* data represents each item in the array passed as the dataSource - in this each contact  */}
         renderRow={data => <Text>{data.firstName}</Text>}
         />
     )
@@ -231,12 +251,12 @@ class ContactList extends Component {
 
 #### Setting a Data Source
 
-Our `ContactApp` component is in charge of all our app's state, rendering our other components. Let's go in, and update that component's defintion so that is will pass the correct data to the `ContactList`.
+Our `ContactApp` component is in charge of all our app's state and rendering our other components. Let's go in, and update that component's definition so that it will pass the correct data to the `ContactList`.
 
 First, when our app is initialized we need to use `ListView.DataSource()` to configure how the data is structured, and specifically, to define how to differentiates between rows:
 
 ```jsx
-// index.ios.js
+// index.iOS.js
 
 export default class ContactApp extends Component {
   constructor(props) {
@@ -267,9 +287,9 @@ export default class ContactApp extends Component {
 }
 ```
 
-> [*ListView.DataSource*](https://github.com/facebook/react-native/blob/master/Libraries/CustomComponents/ListView/ListViewDataSource.js) does a lot of things behind the scenes that allow us to have an efficient data blob that the `ListView` component can understand, all from a simple array.Also important to note, we need to treat the data we pass as a dataSource as **immutable**.
+> [`ListView.DataSource`](https://github.com/facebook/react-native/blob/master/Libraries/CustomComponents/ListView/ListViewDataSource.js) does a lot of things behind the scenes that allow us to have an efficient data blob that the `ListView` component can understand, all from a simple array. Also important to note, we need to treat the data we pass as a dataSource as **immutable**.
 
-If we now reload in the simulator, we should see all of our contacts' first names rendered on the screen! Next up, let's work on adding some styles and a little more markup to each `Row` in the list. 
+If we now reload in the simulator, we should see all of our contacts' first names rendered on the screen! Next up, let's work on adding some styles and a little more markup to each `Row` in the list.
 
 ---
 
@@ -277,11 +297,11 @@ If we now reload in the simulator, we should see all of our contacts' first name
 
 ---
 
-### (You -Do) Refactoring To Use A Row Component
+### (You - Do) Refactoring To Use A Row Component
 
-Now that we have our basic app structure in place, it's a good time to take the opportunity to refactor and add some styles to our rendered data. 
+Now that we have our basic app structure in place, it's a good time to take the opportunity to refactor and add some styles to our rendered data.
 
-Specifically, let's take that little bit of rendered UI from the `renderRow()` method in our `ContactList` component, and break it out into its own `Row` component that we will render instead. This will leave our `renderRow()`looking something like this we we are done: 
+Specifically, let's take that little bit of rendered UI from the `renderRow()` method in our `ContactList` component, and break it out into its own `Row` component that we will render instead. This will leave our `renderRow()`looking something like this we we are done:
 
 ```jsx
 // ContactList
@@ -290,9 +310,9 @@ Specifically, let's take that little bit of rendered UI from the `renderRow()` m
   renderRow={data => <Row contact={data} />} />
 ```
 
+**Your task is to define our `Row` component**
 
-
-**You're task is to define our `Row` component. ** You should:
+You should:
 
 - Render your new `Row` component in the `renderRow()` method in the `ListView`
   - Pass in the data as a `contact` prop
@@ -303,14 +323,14 @@ Specifically, let's take that little bit of rendered UI from the `renderRow()` m
 
 Once you have your initial markup, try adding some inline styles to your `Row` Component:
 
-- Use `Stylesheet.create()` to create a `styles` object with computed javascript `CSS` rules defined 
-- Define `rowContainer`, `rowPhoto`, and `rowText` rules and apply them to their respective bit of UI in the `Row` render method 
+- Use `Stylesheet.create()` to create a `styles` object with computed javascript `CSS` rules defined
+- Define `rowContainer`, `rowPhoto`, and `rowText` rules and apply them to their respective bit of UI in the `Row` render method
 
-Ultimately in the mobile landscape, the [React Native flow of styling](https://facebook.github.io/react-native/docs/style.html) leads to a more modular, targeted approach to styling components, rather than creating tradtional external stylesheets. This allows for styles to be easily reused, and only applied on components as they are rendered down the chain.
+Ultimately in the mobile landscape, the [React Native flow of styling](https://facebook.github.io/react-native/docs/style.html) leads to a more modular, targeted approach to styling components, rather than creating traditional external stylesheets. This allows for styles to be easily reused, and only applied on components as they are rendered down the chain.
 
 #### Adding A Row Separator
 
-Now that our UI for our initial view is starting to come together, let's add a nice visual seperator between our rendered rows. Luckily, the `ListView` component has a `renderSeperator()` method that can help us display a separator between components in our list. 
+Now that our UI for our initial view is starting to come together, let's add a nice visual separator between our rendered rows. Luckily, the `ListView` component has a `renderSeparator()` method that can help us display a separator between components in our list.
 
 To do this, we need to define a new style and add tiny bit of UI:
 
@@ -327,7 +347,7 @@ class ContactList extends Component {
   }
 }
 
-/*... */
+/* ... */
 
 const styles = {
   /* ... */
@@ -349,19 +369,217 @@ Now, you might be asking why not just tack on a border bottom on the component r
 
 Let's continue implementing our outlined features and add a way for users to filter our contacts by name.
 
-We'll start by adding a new component `ContactSearch`, which we will render as the footer on the `ListView` utilizing the `renderFooter()` method continuing the similar pattern we've seen so far.
+We'll start by adding a new component `ContactSearch`, which we will render as the header in the `ListView`. To do this, we'll utilize the `renderHeader()` method, following a similar pattern we've been doing so far.
 
-Before we can begin writing our new component, we need a way to collect user input, and thus we'll have to import another native component, `TextInput`. This will allow us to track changes to the input, and update our app's state accordingly.
+However, before we can begin writing our new component, we need a way to collect user input, and thus we'll have to import another native component, `TextInput`. This will allow us to track changes to the input, and update our app's state accordingly.
 
-With our data in mind, this component will receive the `searchTerm` and event handlers as props that we define and pass down in our `ContactApp` container component. 
+With our data in mind, the `ContactSearch` component will receive the `searchTerm` and necessary event handlers as `props` that we will define and pass down in our `ContactApp` container component.
 
-<!— TODO: add Filter snippets —>
+#### Adding UI
+
+First up, let's focus on creating the necessary UI before we worry about wiring up the input to the app's state:
+
+```jsx
+/* after our imports but before our ContactApp definition */
+
+// ContactSearch component
+const ContactSearch = props => {
+  return (
+    <View style={styles.searchContainer}>
+      <TextInput
+        style={styles.input}
+        placeholder="Type to Filter..."
+      />
+    </View>
+  )
+}
+```
+
+Now we just need to define the styles we're referencing and then render it in the `ContactList` component via the `renderHeader()` method:
+
+```jsx
+// ContactList component
+class ContactList extends Component {
+  render() {
+    return (
+      <ListView
+        dataSource={this.props.dataSource}
+        renderRow={data => <Row contact={data} />}
+        renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
+        renderHeader={() => <ContactSearch />}
+       />
+    )
+  }
+}
+
+/* ... */
+
+const styles = {
+  /* ... */
+  searchContainer: {
+   flex: 1,
+   padding: 8,
+   flexDirection: 'row',
+   alignItems: 'center',
+   backgroundColor: '#C1C1C1',
+  },
+  input: {
+   height: 30,
+   flex: 1,
+   paddingHorizontal: 8,
+   fontSize: 15,
+   backgroundColor: '#FFFFFF',
+   borderRadius: 2,
+  },
+}
+```
+
+If we refresh our app in the simulator, we should see our search UI added to the top of the screen, but it doesn't do any thing...yet!
+
+Let's use some state to track user input and update our app accordingly.
+
+#### Filtering Contacts
+
+In order to wire up our `ContactSearch`, we will need to pass down some data and handlers from the container component.
+
+If you remember from when we defined our app's initial state, we already have a piece of state in the `ContactApp` we've called `searchTerm`.  We will pass that data and an `onSearchInput` handler down the chain from `ContactApp` to `ContactList` to `ContactSearch` via props:
+
+```jsx
+// ContactSearch component
+const ContactSearch = props => {
+  // grab the searchTerm and handler from props
+  let { searchTerm, onSearchInput } = this.props
+  return (
+    <View style={styles.searchContainer}>
+      <TextInput
+        value={searchTerm}
+        onChangeText={ text => onSearchInput(text) }
+        style={styles.input}
+        placeholder="Type to Filter..."
+      />
+    </View>
+  )
+}
+
+// ContactList component
+class ContactList extends Component {
+  render() {
+    return (
+      <ListView
+        dataSource={this.props.dataSource}
+        renderRow={data => <Row contact={data} />}
+        renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
+        renderHeader={() => (
+          <ContactSearch
+            searchTerm={this.props.searchTerm}
+            onSearchInput={this.props.onSearchInput}
+          />
+        )}
+       />
+    )
+  }
+}
+
+// ContactApp component
+export default class ContactApp extends Component {
+  constructor(props){
+
+    /* ... */
+
+    // bind method to instance
+    this.handleSearchInput = this.handleSearchInput.bind(this)
+  }
+
+  handleSearchInput(searchTerm) {
+    console.log(searchTerm)
+  }
+
+  render() {
+    return (
+      <View style={{top: 18}}>
+        <ContactList
+          dataSource={this.state.dataSource}
+          onSearchInput={this.handleSearchInput}
+          searchTerm={this.state.searchTerm}
+        />
+      </View>
+    )
+  }
+}
+```
+
+> **Note**: we added an inline style prop `style={{top:18}}` to the ContactApp's container to help with the list header's display.
+
+Ok, so it might seem like there's a lot going on in this step, but this is the same pattern we saw in React where we are passing state down between components as props, and letting the container component be in charge of responding to user input. When we refresh our app in the simulator and if we have `remote debugging` enabled, we should be able to see the user's input logged to our console in the debugger UI tab.
+
+This is a great sign, that we can proceed to use that input to perform the necessary filtering. All that's left is to update our `handleSearchInput` method in the `ContactApp` and write the logic to filter by a contact's full name:
+
+```jsx
+// ContactApp component
+export default class ContactApp extends Component {
+  constructor(props){
+    super(props)
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
+    this.state = {
+      contacts: contactsData,
+      dataSource: ds.cloneWithRows(contactsData),
+      newContact: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+        imageUrl: '',
+      },
+      searchTerm: '',
+    }
+
+    // bind method to instance
+    this.handleSearchInput = this.handleSearchInput.bind(this)
+  }
+
+  handleSearchInput(searchTerm) {
+    // given a contact, see if the search term in that contact's full name
+    let filterbyFullName = contact => {
+      let fullName = `${contact.firstName} ${contact.lastName}`
+      return fullName.includes(searchTerm.toLowerCase())
+    }
+
+    // filter our list of contacts, making sure to preserve immutability
+    let updatedContacts = this.state.contacts.slice().filter(filterbyFullName)
+
+    // if there's no search results, return a copy of original dataset
+    updatedContacts = updatedContacts.length ? updatedContacts : this.state.contacts.slice()
+
+    this.setState({
+      ...this.state, // returns a copy of the previous state
+      dataSource: this.state.dataSource.cloneWithRows(updatedContacts), // update the dataSource
+      searchTerm, // update the searchTerm controlling the input
+    })
+  }
+
+  render() {
+    return (
+      <View style={{top: 18}}>
+        <ContactList
+          dataSource={this.state.dataSource}
+          onSearchInput={this.handleSearchInput}
+          searchTerm={this.state.searchTerm}
+        />
+      </View>
+    )
+  }
+}
+```
+
+In the `handleSearchInput` method, we filter our contacts by the full name based on the search term, and then we call `this.setState` to update the `dataSource` property which is in charge of what is rendered by our `ListView`. Important to note, during this step we make use of the nature of `.slice()` to ensure that we don't mutate our data source directly.
+
+After all that, if we go reload in the simulator now, we should be able to search for a contact by either first or last name, and watch as the list dynamically renders the results!
 
 ## Closing: What's Next?
 
-Now that we know the building blocks of React Native, we can build some pretty cool apps that will render on any platform. Remember, React Native  isn't some product - it's a community of thousands of developers. So if you're interested in React Native, here's some related stuff you might want to check out. 
+Now that we know the building blocks of React Native, we can build some pretty cool apps that will render on any platform. Remember, React Native  isn't some product - it's a community of thousands of developers. So if you're interested in React Native, here's some related stuff you might want to check out.
 
-- [Fetching Data with React Native]([Networking](https://facebook.github.io/react-native/docs/network.html))
+- [Fetching Data with React Native](https://facebook.github.io/react-native/docs/network.html)
 - [Navigation](https://facebook.github.io/react-native/docs/using-navigators.html)
 - [The Future](https://getexponent.com/)
 
