@@ -19,7 +19,7 @@ At a high level, it’s important distinction to make that we are no longer on t
 
 ## Getting Started
 
-React Native uses [Node.js](https://nodejs.org/), a JavaScript runtime to build our JavaScript code, as well as requires several dependencies in order to run. We can install these with `npm` and `brew`.
+React Native uses [Node.js](https://nodejs.org/), a JavaScript runtime to build our JavaScript code, as well as requires several dependencies in order to run. We can install these with `brew`.
 
 ### Installing dependencies
 
@@ -34,10 +34,10 @@ This is used by React Native to figure out when your code changes and rebuild ac
 
 Next up, we need to get the React Native CLI tools, which will allow us to initialize and run our applications.
 
-Before we start running an iOS app, as recommended let's use Facebook's JS package manager `yarn` to install the tools locally:
+Before we start running an iOS app, as recommended let's use Facebook's JS package manager [yarn](https://yarnpkg.com/en/docs/install) to install the tools locally:
 
 ```bash
-$ npm install -g yarn
+$ brew install yarn
 $ yarn global add react-native-cli
 ```
 
@@ -259,7 +259,7 @@ export default class ContactApp extends Component {
   constructor(props) {
     super(props)
     // initialize a dataSource where a row is defined to be different from the previous one
-    const ds = ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
+    const ds = new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
     this.state = {
       contacts: contactsData, // update state to pull from the seed data
       dataSource: ds.cloneWithRows(contactsData), // need to format our seed data correctly
@@ -578,3 +578,7 @@ Now that we know the building blocks of React Native, we can build some pretty c
 - [How to Use the ListView Component](https://medium.com/differential/react-native-basics-how-to-use-the-listview-component-a0ec44cf1fe8#.ck2vfr4ue)
 - [React Native Libraries and Plugins](https://js.coach/react-native)
 - [React Native Development Tools](https://facebook.github.io/react-native/docs/more-resources.html#development-tools)
+
+## Screencasts 
+
+- [WDI 12](https://www.youtube.com/watch?v=1vi2o8xOTKI)
